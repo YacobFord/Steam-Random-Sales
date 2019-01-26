@@ -1,5 +1,5 @@
 # Python 3
-# Google search & open in new tabs
+# Random steam game sales
 # By Jake Ford - 25/01/19
 
 import bs4, webbrowser, sys
