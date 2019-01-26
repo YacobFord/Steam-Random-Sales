@@ -1,0 +1,58 @@
+# Python 3
+# Google search & open in new tabs
+# By Jake Ford - 25/01/19
+
+import bs4, webbrowser, sys
+from urllib.request import urlopen 
+
+#Get the amount of sales the user wants to see
+sales_amount = input("How many random sale items would you like to see?: ")
+
+#Checks to make sure sales_amount is a number
+while sales_amount.isdecimal() == False: 
+	print("Please Enter numbers only!\n")
+	sales_amount = input("How many random sale items would you like to see?: ")
+	continue
+
+print ("Loading random sales...........")
+my_url = 'https://www.steamprices.com/au'
+
+# Opening a connection and grabbing the page
+url = urlopen(my_url)	
+page_html = url.read()	
+url.close()	
+
+# HTML Parser
+soup = bs4.BeautifulSoup(page_html, "lxml")	
+
+# Grabs each products
+contain = soup.findAll('div',{'class':'item'})	
+
+#converts sales_amount from string to number for following for loop
+sales_amount = int(sales_amount)
+
+#prints out the amount of items the user wants to see	
+for item in range(sales_amount):	
+	#Finds the title of the sale item
+	title = contain[item].div.h4.a.text	
+
+	# Grabs old & new prices from the file in 'soup'
+	old_price = contain[item].findAll('td', {'class':'price_old'})[0].text	
+	new_price = contain[item].findAll('td', {'class':'price_curent'})[0].text	
+
+	
+	#prings out all the prices and title, with new lines for easier reading
+	print("\nTitle: " + title)
+	print("Old Price: " + old_price)
+	print("Price on sale: " + new_price)	
+
+	#This gets the last 5 digets from the prices (so its 'xx:xx' & not 'A$ xx:xx')
+	#then we - the old price with the new one and get the savings.
+	print('You save: A$ ' + str(float(old_price[3:]) - float(new_price[3:]))[:5],'\n')
+
+
+
+#Quits the program after user presses Enter 	
+while True:
+	input('Press [ENTER] to quit.')
+	break
