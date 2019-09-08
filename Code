@@ -28,7 +28,7 @@ while sales_amount.isdecimal() == False:
 	continue
 
 print ("Loading random sales...........")
-my_url = 'https://www.steamprices.com/au'
+my_url = 'https://www.steamprices.com/au/search/?preset=discount'
 
 # Opening a connection and grabbing the page
 url = urlopen(my_url)	
